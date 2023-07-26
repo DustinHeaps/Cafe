@@ -8,6 +8,7 @@ const ShoppingCartButton = () => {
 
   return (
     <button
+      aria-label='cart button'
       className='relative flex items-center gap-x-2 rounded-lg px-1.5 py-1 hover:bg-stone-100 dark:hover:bg-stone-700'
       onClick={() => setShowShoppingCart((open: boolean) => !open)}
     >
