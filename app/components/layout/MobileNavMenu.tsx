@@ -9,7 +9,7 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Products', href: '/products' },
-  { name: 'Dashboard', href: '/dashboard' }
+  // { name: 'Dashboard', href: '/dashboard' }
 ]
 
 const MobileNavMenu = () => {
