@@ -20,6 +20,7 @@ const ShoppingCart = () => {
     cart,
     loading,
     removeItem,
+    updateItem,
     updateCart,
     showShoppingCart,
     setShowShoppingCart
@@ -45,6 +46,14 @@ const ShoppingCart = () => {
     }
 
     if (cart?.checkoutUrl) router.push(cart.checkoutUrl)
+  }
+
+  const handleDecreaseQuantity = (id: string, quantity: number) => {
+    if (quantity === 1) {
+      removeItem(id)
+    } else {
+      updateItem(id, --quantity)
+    }
   }
 
   return (
@@ -135,11 +144,31 @@ const ShoppingCart = () => {
                                       </p>
                                     </div>
                                     <div className='flex flex-1 items-end justify-between text-sm'>
-                                      <p className='text-gray-500'>
-                                        Qty {item.quantity}
-                                      </p>
-
-                                      <div className='flex'>
+                                      <div className='flex items-center'>
+                                        <img
+                                          className='w-4 cursor-pointer'
+                                          src='/images/minus-sign.png'
+                                          onClick={() =>
+                                            handleDecreaseQuantity(
+                                              item.id,
+                                              item.quantity
+                                            )
+                                          }
+                                          alt=''
+                                        />
+                                        <p id='quantity' className='mx-[6px] text-base text-gray-500'>
+                                          {item.quantity}
+                                        </p>
+                                        <img
+                                          className='w-4 cursor-pointer'
+                                          src='/images/plus-sign.png'
+                                          onClick={() =>
+                                            updateItem(item.id, ++item.quantity)
+                                          }
+                                          alt=''
+                                        />
+                                      </div>
+                                      <div className='ml-auto flex'>
                                         <button
                                           type='button'
                                           onClick={() => removeItem(item.id)}
@@ -163,7 +192,11 @@ const ShoppingCart = () => {
                         <p>{formatCurrency({ amount: cart?.subTotal || 0 })}</p>
                       </div>
                       <p className='mt-0.5 text-sm text-gray-500'>
-                        Shipping and taxes calculated at checkout.
+                        Shipping and taxes calculated at ut.
+                      </p>
+                      <p className=' text-red-600'>
+                        use 4242 4242 4242 4242 for the Credit Card number & any
+                        exp. date in the future
                       </p>
 
                       {cart?.checkoutUrl && (
@@ -171,7 +204,9 @@ const ShoppingCart = () => {
                           {isSignedIn ? (
                             <button
                               onClick={handleCheckout}
-                              disabled={loading || updating}
+                              disabled={
+                                loading || updating || cart.items?.length === 0
+                              }
                               className='flex h-12 w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-75'
                             >
                               {loading || updating ? 'Loading...' : 'Checkout'}

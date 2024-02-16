@@ -18,6 +18,7 @@ const ProductGrid = ({ products }: { products: Product[] }) => {
       )}
       {products?.map(product => (
         <Link
+          data-testid="product"
           key={product.id}
           href={`/products/${product.slug}`}
           className='group relative overflow-hidden rounded-lg'

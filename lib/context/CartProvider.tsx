@@ -8,7 +8,12 @@ import {
   Dispatch,
   SetStateAction
 } from 'react'
-import { getCart, addToCart, removeFromCart } from '@/lib/swell/cart'
+import {
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateProductQuantity
+} from '@/lib/swell/cart'
 import { Cart } from 'swell-js'
 import { AddToCartInput } from '../types'
 
@@ -19,6 +24,7 @@ const CartContext = createContext<{
   showShoppingCart: boolean
   addItem: (productData: AddToCartInput) => void
   removeItem: (itemId: string) => void
+  updateItem: (itemId: string, quantity: number) => void
   updateCart: (cart?: Cart) => void
   setShowShoppingCart: Dispatch<SetStateAction<boolean>>
 }>({
@@ -28,6 +34,7 @@ const CartContext = createContext<{
   showShoppingCart: false,
   addItem: () => {},
   removeItem: () => {},
+  updateItem: () => {},
   updateCart: () => {},
   setShowShoppingCart: () => {}
 })
@@ -63,6 +70,14 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       .finally(() => setLoading(false))
   }, [])
 
+  const updateItem = useCallback((itemId: string, quantity: number) => {
+    setLoading(true)
+    updateProductQuantity(itemId, quantity)
+      .then(setCart)
+      .catch(setError)
+      .finally(() => setLoading(false))
+  }, [])
+
   const updateCart = useCallback((cart?: Cart) => {
     if (cart) {
       setCart(cart)
@@ -84,7 +99,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       addItem,
       removeItem,
       updateCart,
-      setShowShoppingCart
+      setShowShoppingCart,
+      updateItem
     }),
     [
       cart,
@@ -94,7 +110,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       addItem,
       removeItem,
       updateCart,
-      setShowShoppingCart
+      setShowShoppingCart,
+      updateItem
     ]
   )
 

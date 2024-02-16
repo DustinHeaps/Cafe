@@ -17,7 +17,7 @@ const Page = async () => {
             <h2 className='text-2xl font-bold tracking-tight'>
               Shop by Category
             </h2>
-            <Link
+            <Link 
               href='/products'
               className='hidden text-sm font-semibold text-sky-600 hover:text-sky-500 sm:block'
             >

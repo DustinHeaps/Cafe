@@ -37,7 +37,7 @@ const Page = async ({
 
   const { results: categories } = await listCategories()
 
-  return <Products products={products} categories={categories} />
+  return <Products  products={products} categories={categories} />
 }
 
 export default Page
